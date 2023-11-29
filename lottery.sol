@@ -1,60 +1,41 @@
-//SPDX-License-Identifier: GPL-3.0
- 
-pragma solidity >=0.5.0 <0.9.0;
+// SPDX-License-Identifier: GPL-3.0;
+pragma solidity 0.8.0;
 
-contract Lottery{
+contract Lottery {
+    address payable[] public players;
+    address public owner_mgr;
     
-    // declaring the state variables
-    address payable[] public players; //dynamic array of type address payable
-    address public manager; 
-    
-    
-    // declaring the constructor
     constructor(){
-        // initializing the owner to the address that deploys the contract
-        manager = msg.sender; 
+        owner_mgr = msg.sender;  
     }
     
-    // declaring the receive() function that is necessary to receive ETH
-    receive () payable external{
-        // each player sends exactly 0.1 ETH 
-        require(msg.value == 0.1 ether);
-        // appending the player to the players array
+    receive() external payable{
+        require(msg.value == 0.1 ether );
         players.push(payable(msg.sender));
     }
-    
-    // returning the contract's balance in wei
-    function getBalance() public view returns(uint){
-        // only the manager is allowed to call it
-        require(msg.sender == manager);
+
+    function getBalance()public view returns (uint){
+        require(msg.sender==owner_mgr);
         return address(this).balance;
     }
-    
-    // helper function that returns a big random integer
-    function random() internal view returns(uint){
-       return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players.length)));
-    }
-    
-    
-    // selecting the winner
-    function pickWinner() public{
-        // only the manager can pick a winner if there are at least 3 players in the lottery
-        require(msg.sender == manager);
-        require (players.length >= 3);
-        
-        uint r = random();
-        address payable winner;
-        
-        // computing a random index of the array
-        uint index = r % players.length;
-    
-        winner = players[index]; // this is the winner
-        
-        // transferring the entire contract's balance to the winner
-        winner.transfer(getBalance());
-        
-        // resetting the lottery for the next round
-        players = new address payable[](0);
+
+    function random_gen() public view returns (uint){
+        require(msg.sender==owner_mgr);
+        return uint(keccak256(abi.encodePacked(block.difficulty,block.timestamp,players.length)));
     }
 
+    function pick_winner() public returns(address){
+        require(msg.sender==owner_mgr);
+        require(players.length>=3);
+
+        uint r = random_gen();
+        address payable winner;
+
+        uint indi = r % players.length;
+        winner = players[indi];
+
+        winner.transfer(getBalance());
+        players = new address payable[](0);
+        return winner; 
+    }
 }
