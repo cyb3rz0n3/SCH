@@ -1,0 +1,24 @@
+Challenges - The Lottery Contract
+
+Disclaimer: Use only the Rinkeby Testnet and Fake (Rinkeby) ETH. Working with cryptocurrencies involves lots of risks and any decision regarding cryptocurrency usage, legal matters, investments, taxes, cryptocurrency mining, exchange usage, wallet usage, and so on is at your own risk and responsibility.
+Challenge #1
+    Consider the Lottery Smart Contract developed in the current section.
+
+    Change the contract so that the manager of the lottery can not participate in the lottery.
+
+Challenge #2
+    Consider the Lottery Smart Contract developed in the current section.
+
+    Change the contract so that the manager is automatically added to the lottery, without sending any ether.
+
+Challenge #3
+    Consider the Lottery Smart Contract developed in the current section.
+
+    Change the contract so that anyone can pick the winner and finish the lottery, if there are at least 10 players.
+
+Challenge #4
+    Consider the Lottery Smart Contract developed in the current section.
+
+    Change the contract so that the manager receives a fee of 10% of the lottery funds.
+
+
